@@ -1,0 +1,18 @@
+Sub ChkUSBkey()
+Dim filesys
+Dim DirPath
+
+	DirPath = "E:\"	
+	
+	Set filesys = CreateObject("Scripting.FileSystemObject")
+	
+	If  filesys.FolderExists(DirPath) Then
+		
+		SmartTags("xExpDir")=DirPath
+		
+	Else
+		SmartTags("xExpDir")=""
+	End If
+
+	Set filesys = Nothing
+End Sub
