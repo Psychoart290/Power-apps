@@ -1,0 +1,11 @@
+Sub RecUpload()
+Dim Status
+
+If SmartTags("DBRecipe_RecCmd_CopyRecipeCmd") Then
+	Exit Sub
+End If
+
+GetDataRecordFromPLC 1,SmartTags("DBRecipe_RecSelected_ID"),hmiOverwriteWithConfirmation,hmiOn,"DBRecipe_RecSelected_UploadStatus" 
+
+
+End Sub
