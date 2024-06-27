@@ -1,0 +1,16 @@
+Sub SendRec()
+
+
+If SmartTags("DBRecipe_SaveStatus") <4 Then
+	Exit Sub
+End If
+
+Dim xID
+
+xID=SmartTags("DBRecipe_RecSelected_RecipeID")
+SetDataRecordToPLC xID,SmartTags("DBRecipe_RecSelected_ID"),hmiOn,"SendStatus"
+
+
+SmartTags("DBRecipe_SaveStatus")=0
+
+End Sub
