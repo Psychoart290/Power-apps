@@ -1,0 +1,56 @@
+Sub LogRecord(ByRef pID, ByRef pRec, ByVal pOP, ByRef pUN)
+Dim lFileName, Mssg
+Dim RecName, DSname, lSt
+Dim PosX, PosY
+Dim filesys
+Dim DirPath
+Dim tsY, tsM, tsD, tsH, tsN, tsS, TSDD, TSHH
+Dim FNtsY, FNtsM, FNtsD, DataNome
+Dim DatePlc
+
+	On Error Resume Next
+	DatePlc = SmartTags("HMI_INTERFACE.DATE_TIME_PLC.DT")
+    DirPath = "D:\ProgramData\Log\"	
+	
+	Set filesys = CreateObject("Scripting.FileSystemObject")
+	
+	tsY= DatePart("yyyy",DatePlc)	
+	tsM= DatePart("m",DatePlc)
+	If Len(tsM)<2 Then
+		tsM="0" & tsM
+	End If
+	tsD= DatePart("d",DatePlc)
+	If Len(tsD)<2 Then
+		tsD="0" & tsD
+	End If
+	tsH= DatePart("h",DatePlc)
+	If Len(tsH)<2 Then
+		tsH="0" & tsH
+	End If
+	tsN= DatePart("n",DatePlc)
+	If Len(tsN)<2 Then
+		tsN="0" & tsN
+	End If
+	tsS= DatePart("s",DatePlc)
+	If Len(tsS)<2 Then
+		tsS="0" & tsS
+	End If
+
+	
+ 	TSDD = tsY & "_" & tsM & "_" & tsD & "_"
+ 	TSHH = tsH & "_" & tsN & "_" & tsS & "_"
+
+	If Not filesys.FolderExists(DirPath) Then
+		filesys.CreateFolder (DirPath)
+	End If
+	
+	lFileName = DirPath & TSDD &  TSHH & pOP & "_" & pUN & ".log"
+
+	ExportDataRecords pRec, pID,lFileName,hmiOverwriteAlways,hmiOff,PosY
+
+	
+    Set filesys = Nothing
+
+
+
+End Sub
