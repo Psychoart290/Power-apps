@@ -1,0 +1,38 @@
+Sub ExportRecord(ByVal pID)
+Dim lFileName, Mssg
+Dim RecName, DSname, lSt
+Dim shell : Set shell = CreateObject("Shell.Application")
+    Dim oFldr : Set oFldr = shell.BrowseForFolder(0, "Choose a folder:" _
+        , &H0001 + &H0004 + &H0010 + &H0020, "\")
+    'See MSDN "BROWSEINFO structure" for constants
+    'Shell.BrowseForFolder method: Creates a dialog box that 
+    '   enables the user to select a folder and then returns 
+    '   the selected folder's Folder object.
+    If (Not oFldr Is Nothing) Then
+		If pID=0 Then
+        	lFileName = oFldr.Self.Path & "\CVL_SK1recipe.csv"
+		Else
+			GetDataRecordName 1,pID,"xRec","xDS","xDUE"
+			lFileName = oFldr.Self.Path & "\" & SmartTags("xDS") & ".csv"
+		End If
+    Else
+        lFileName = ""
+	End If
+	
+	If lFileName <> "" Then
+		ExportDataRecords 1,pID,lFileName,	hmiOverwriteWithConfirmation,hmiOn,"xUNO"
+		If pID>0 Then
+			Mssg = "Record N. " & CStr(pID) & " exported in: "
+		Else
+			Mssg = "Recipe exported In: "
+		End If
+	End If
+	
+	SmartTags("xFILE") = Mssg & lFileName
+	
+    Set shell = Nothing
+    Set oFldr = Nothing
+
+
+
+End Sub
