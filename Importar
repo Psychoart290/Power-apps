@@ -1,0 +1,65 @@
+Sub Import()
+
+Const BIF_returnonlyfsdirs   = &H0001
+Const BIF_dontgobelowdomain  = &H0002
+Const BIF_statustext         = &H0004
+Const BIF_returnfsancestors  = &H0008
+Const BIF_editbox            = &H0010
+Const BIF_validate           = &H0020
+Const BIF_browseforcomputer  = &H1000
+Const BIF_browseforprinter   = &H2000
+Const BIF_browseincludefiles = &H4000
+
+	Dim Fname, pippo
+'    Dim SA , f
+    
+'    Fname=""
+'    SmartTags("xFILE") = Fname
+'    Set SA = CreateObject("Shell.Application")
+'    Set f = SA.BrowseForFolder(0, "Choose a file", BIF_returnonlyfsdirs + BIF_statustext + BIF_editbox + BIF_validate, "\")'
+'	If ( f Is Nothing) Then
+'   		Set SA = Nothing
+'        Exit Sub
+'    End If
+'    Set f = Nothing
+'   Set SA = Nothing
+    
+ '*******************************************************************************************************  
+ 	
+Dim oDlg, sIniDir, sFilter, sTitle
+Dim GetFileDlgEx
+Dim fso
+Dim MyFile
+
+SmartTags("LENGTH")=0
+SmartTags("xFILE") = ""
+
+
+sIniDir = "\"
+sFilter = "csv files (*.csv)|*.csv|txt files (*.txt)|*.txt|log files (*.log)|*.log|" 
+sTitle = "Put a title of your program here :) (-_°)" 
+
+
+    Dim wso: Set wso = CreateObject("Wscript.Shell")
+    Dim hta: hta = """about:<input type=file id=file>"                          & vbCrLf _
+                 & "<script>resizeTo(0,0);"                                     & vbCrLf _
+                 & "   file.click();"                                           & vbCrLf _
+                 & "   fso = new ActiveXObject('Scripting.FileSystemObject');"  & vbCrLf _
+                 & "   fso.GetStandardStream(1).WriteLine(file.value);"         & vbCrLf _
+                 & "   close();"                                                & vbCrLf _
+                 & "</script>"""
+
+
+    Fname = wso.Exec("mshta.exe " & hta).StdOut.ReadLine
+     
+	If UCase(Right(Fname,4)) <> ".CSV" Then 
+		Set wso = Nothing
+		Exit Sub
+	End If
+
+     SmartTags("xFILE") = Fname
+     
+     SmartTags("LENGTH")= Len(Fname)
+	
+	Set wso = Nothing
+End Sub
