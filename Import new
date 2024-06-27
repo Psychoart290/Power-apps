@@ -1,0 +1,17 @@
+Sub Import_new()
+
+
+SmartTags("LENGTH")=0
+SmartTags("xFILE") = ""
+
+	SmartTags("xFILE") = CStr(SmartTags("NEWimportStatus"))
+	
+	If (SmartTags("NEWimportStatus")=0) Then
+		SmartTags("xFILE") = SmartTags("NEWimportPath")     
+     	SmartTags("LENGTH")= Len(SmartTags("NEWimportPath"))	
+     	If UCase(Right(SmartTags("xFILE"),4)) <> ".CSV" Then 			
+			Exit Sub
+		End If
+	End If
+
+End Sub
